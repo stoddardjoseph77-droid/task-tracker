@@ -21,6 +21,14 @@ def complete_task(tasks, task_id):
     return None
 
 
+def delete_task(tasks, task_id):
+    """Delete a task by its ID."""
+    for i, task in enumerate(tasks):
+        if task["id"] == task_id:
+            return tasks.pop(i)
+    return None
+
+
 def list_tasks(tasks):
     """Return a formatted string of all tasks."""
     if not tasks:

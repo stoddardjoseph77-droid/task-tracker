@@ -1,7 +1,7 @@
 """Command-line interface for the task tracker."""
 
 import sys
-from tasks import add_task, complete_task, list_tasks
+from tasks import add_task, complete_task, delete_task, list_tasks
 from storage import load_tasks, save_tasks
 
 
@@ -13,6 +13,7 @@ def main():
         print("  python cli.py add \"Task name\"")
         print("  python cli.py list")
         print("  python cli.py done <task_id>")
+        print("  python cli.py delete <task_id>")
         return
 
     command = sys.argv[1]
@@ -38,6 +39,18 @@ def main():
         save_tasks(tasks)
         if task:
             print(f"Completed: {task['title']}")
+        else:
+            print(f"Task #{task_id} not found.")
+
+    elif command == "delete":
+        if len(sys.argv) < 3:
+            print("Please provide a task ID: python cli.py delete 1")
+            return
+        task_id = int(sys.argv[2])
+        task = delete_task(tasks, task_id)
+        save_tasks(tasks)
+        if task:
+            print(f"Deleted: {task['title']}")
         else:
             print(f"Task #{task_id} not found.")
 
