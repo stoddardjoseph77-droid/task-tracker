@@ -2,7 +2,7 @@
 
 import sys
 from tasks import add_task, assign_task, complete_task, delete_task, list_by_member, list_tasks
-from storage import load_tasks, save_tasks
+from storage import load_tasks, load_team, save_tasks, save_team
 
 
 def main():
@@ -19,6 +19,9 @@ def main():
         print("  python cli.py assign <task_id> <name>")
         print("  python cli.py list")
         print("  python cli.py admin")
+        print("  python cli.py team")
+        print("  python cli.py team add <name> <role>")
+        print("  python cli.py team remove <name>")
         print("  python cli.py done <task_id>")
         print("  python cli.py delete <task_id>")
         return
@@ -52,6 +55,46 @@ def main():
 
     elif command == "admin":
         print(list_by_member(tasks))
+
+    elif command == "team":
+        team = load_team()
+        if len(sys.argv) < 3:
+            if not team:
+                print("No team members yet. Add one with: python cli.py team add <name> <role>")
+            else:
+                print("Team:")
+                for member in team:
+                    print(f"  {member['name']} — {member['role']}")
+            return
+
+        action = sys.argv[2]
+        if action == "add":
+            if len(sys.argv) < 5:
+                print("Usage: python cli.py team add <name> <role>")
+                return
+            name = sys.argv[3]
+            role = sys.argv[4]
+            for member in team:
+                if member["name"].lower() == name.lower():
+                    print(f"{name} is already on the team.")
+                    return
+            team.append({"name": name, "role": role})
+            save_team(team)
+            print(f"Onboarded: {name} ({role})")
+        elif action == "remove":
+            if len(sys.argv) < 4:
+                print("Usage: python cli.py team remove <name>")
+                return
+            name = sys.argv[3]
+            for i, member in enumerate(team):
+                if member["name"].lower() == name.lower():
+                    team.pop(i)
+                    save_team(team)
+                    print(f"Removed: {name}")
+                    return
+            print(f"{name} not found on the team.")
+        else:
+            print(f"Unknown team action: {action}")
 
     elif command == "done":
         if len(sys.argv) < 3:
