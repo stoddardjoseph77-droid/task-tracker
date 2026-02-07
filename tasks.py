@@ -1,0 +1,32 @@
+"""Task tracker - core logic."""
+
+
+def add_task(tasks, title):
+    """Add a new task to the list."""
+    task = {
+        "id": len(tasks) + 1,
+        "title": title,
+        "done": False,
+    }
+    tasks.append(task)
+    return task
+
+
+def complete_task(tasks, task_id):
+    """Mark a task as done."""
+    for task in tasks:
+        if task["id"] == task_id:
+            task["done"] = True
+            return task
+    return None
+
+
+def list_tasks(tasks):
+    """Return a formatted string of all tasks."""
+    if not tasks:
+        return "No tasks yet."
+    lines = []
+    for task in tasks:
+        status = "done" if task["done"] else "todo"
+        lines.append(f"  [{status}] {task['id']}. {task['title']}")
+    return "\n".join(lines)

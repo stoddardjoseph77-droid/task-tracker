@@ -1,0 +1,19 @@
+# Secrets - NEVER push API keys to GitHub
+.env
+
+# Python junk
+__pycache__/
+*.pyc
+
+# macOS junk
+.DS_Store
+
+# App data (generated at runtime, not source code)
+tasks.json
+
+# AI project stuff you'll use later
+venv/
+data/
+models/
+*.pkl
+*.h5
