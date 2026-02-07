@@ -11,6 +11,8 @@ def main():
     if len(sys.argv) < 2:
         print("Usage:")
         print("  python cli.py add \"Task name\"")
+        print("  python cli.py add \"Task name\" --high")
+        print("  python cli.py add \"Task name\" --low")
         print("  python cli.py list")
         print("  python cli.py done <task_id>")
         print("  python cli.py delete <task_id>")
@@ -23,7 +25,14 @@ def main():
             print("Please provide a task name: python cli.py add \"Task name\"")
             return
         title = sys.argv[2]
-        task = add_task(tasks, title)
+        priority = "normal"
+        if len(sys.argv) > 3:
+            flag = sys.argv[3]
+            if flag == "--high":
+                priority = "high"
+            elif flag == "--low":
+                priority = "low"
+        task = add_task(tasks, title, priority)
         save_tasks(tasks)
         print(f"Added: {task['title']} (#{task['id']})")
 
