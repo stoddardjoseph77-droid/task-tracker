@@ -84,7 +84,7 @@ export default function Home() {
       {/* Header */}
       <header className="bg-white border-b border-gray-200 px-6 py-4">
         <h1 className="text-2xl font-bold text-gray-900">Task Tracker</h1>
-        <p className="text-sm text-gray-500">Team dashboard</p>
+        <p className="text-sm text-gray-500">Team dashboard — auto-deployed from GitHub</p>
       </header>
 
       <main className="max-w-6xl mx-auto px-6 py-8">
