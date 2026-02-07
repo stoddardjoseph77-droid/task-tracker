@@ -13,6 +13,8 @@ def main():
         print("  python cli.py add \"Task name\"")
         print("  python cli.py add \"Task name\" --high")
         print("  python cli.py add \"Task name\" --low")
+        print("  python cli.py add \"Task name\" --due 2026-02-14")
+        print("  python cli.py add \"Task name\" --high --due 2026-02-14")
         print("  python cli.py list")
         print("  python cli.py done <task_id>")
         print("  python cli.py delete <task_id>")
@@ -26,13 +28,16 @@ def main():
             return
         title = sys.argv[2]
         priority = "normal"
-        if len(sys.argv) > 3:
-            flag = sys.argv[3]
-            if flag == "--high":
+        due = None
+        extra_args = sys.argv[3:]
+        for i, arg in enumerate(extra_args):
+            if arg == "--high":
                 priority = "high"
-            elif flag == "--low":
+            elif arg == "--low":
                 priority = "low"
-        task = add_task(tasks, title, priority)
+            elif arg == "--due" and i + 1 < len(extra_args):
+                due = extra_args[i + 1]
+        task = add_task(tasks, title, priority, due)
         save_tasks(tasks)
         print(f"Added: {task['title']} (#{task['id']})")
 
