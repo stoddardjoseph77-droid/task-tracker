@@ -10,6 +10,7 @@ __pycache__/
 
 # App data (generated at runtime, not source code)
 tasks.json
+team.json
 
 # AI project stuff you'll use later
 venv/
