@@ -17,3 +17,6 @@ data/
 models/
 *.pkl
 *.h5
+
+# Personal notes
+git-cheatsheet.md
