@@ -1,6 +1,6 @@
 # Task Tracker
 
-A simple Python task tracker built while learning Git and GitHub.
+A simple Python task tracker built while learning Git and GitHub. I an testing the pull
 
 ## Usage
 
