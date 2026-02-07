@@ -41,6 +41,44 @@ def delete_task(tasks, task_id):
     return None
 
 
+def list_by_member(tasks):
+    """Group tasks by team member for an admin overview."""
+    if not tasks:
+        return "No tasks yet."
+
+    members = {}
+    unassigned = []
+    for task in tasks:
+        assignee = task.get("assignee")
+        if assignee:
+            if assignee not in members:
+                members[assignee] = []
+            members[assignee].append(task)
+        else:
+            unassigned.append(task)
+
+    lines = []
+    for member in sorted(members.keys()):
+        done_count = sum(1 for t in members[member] if t["done"])
+        total = len(members[member])
+        lines.append(f"\n  {member} ({done_count}/{total} done)")
+        for task in members[member]:
+            status = "done" if task["done"] else "todo"
+            priority = task.get("priority", "normal")
+            priority_label = " !! HIGH" if priority == "high" else " -- low" if priority == "low" else ""
+            due = task.get("due")
+            due_label = f"  (due: {due})" if due else ""
+            lines.append(f"    [{status}] {task['id']}. {task['title']}{priority_label}{due_label}")
+
+    if unassigned:
+        lines.append(f"\n  Unassigned ({len(unassigned)} tasks)")
+        for task in unassigned:
+            status = "done" if task["done"] else "todo"
+            lines.append(f"    [{status}] {task['id']}. {task['title']}")
+
+    return "\n".join(lines)
+
+
 def list_tasks(tasks):
     """Return a formatted string of all tasks."""
     if not tasks:
