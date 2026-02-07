@@ -1,7 +1,7 @@
 """Command-line interface for the task tracker."""
 
 import sys
-from tasks import add_task, complete_task, delete_task, list_tasks
+from tasks import add_task, assign_task, complete_task, delete_task, list_tasks
 from storage import load_tasks, save_tasks
 
 
@@ -15,6 +15,8 @@ def main():
         print("  python cli.py add \"Task name\" --low")
         print("  python cli.py add \"Task name\" --due 2026-02-14")
         print("  python cli.py add \"Task name\" --high --due 2026-02-14")
+        print("  python cli.py add \"Task name\" --assign Joey")
+        print("  python cli.py assign <task_id> <name>")
         print("  python cli.py list")
         print("  python cli.py done <task_id>")
         print("  python cli.py delete <task_id>")
@@ -29,6 +31,7 @@ def main():
         title = sys.argv[2]
         priority = "normal"
         due = None
+        assignee = None
         extra_args = sys.argv[3:]
         for i, arg in enumerate(extra_args):
             if arg == "--high":
@@ -37,7 +40,9 @@ def main():
                 priority = "low"
             elif arg == "--due" and i + 1 < len(extra_args):
                 due = extra_args[i + 1]
-        task = add_task(tasks, title, priority, due)
+            elif arg == "--assign" and i + 1 < len(extra_args):
+                assignee = extra_args[i + 1]
+        task = add_task(tasks, title, priority, due, assignee)
         save_tasks(tasks)
         print(f"Added: {task['title']} (#{task['id']})")
 
@@ -53,6 +58,19 @@ def main():
         save_tasks(tasks)
         if task:
             print(f"Completed: {task['title']}")
+        else:
+            print(f"Task #{task_id} not found.")
+
+    elif command == "assign":
+        if len(sys.argv) < 4:
+            print("Usage: python cli.py assign <task_id> <name>")
+            return
+        task_id = int(sys.argv[2])
+        assignee = sys.argv[3]
+        task = assign_task(tasks, task_id, assignee)
+        save_tasks(tasks)
+        if task:
+            print(f"Assigned '{task['title']}' to {assignee}")
         else:
             print(f"Task #{task_id} not found.")
 
