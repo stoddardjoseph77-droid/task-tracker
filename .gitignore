@@ -1,29 +1,34 @@
 # Secrets - NEVER push API keys to GitHub
 .env
+.env.local
+credentials.json
+token.json
 
-# Python junk
+# Temp/intermediate files (DOE Layer 3 outputs)
+.tmp/
+
+# Python
 __pycache__/
 *.pyc
+venv/
 
-# macOS junk
-.DS_Store
-
-# App data (generated at runtime, not source code)
+# Runtime data
 tasks.json
 team.json
-
-# AI project stuff you'll use later
-venv/
-data/
-models/
-*.pkl
-*.h5
 
 # Node.js (dashboard)
 node_modules/
 .next/
-.env.local
 .vercel/
+
+# macOS
+.DS_Store
+
+# AI project files
+data/
+models/
+*.pkl
+*.h5
 
 # Personal notes
 git-cheatsheet.md
